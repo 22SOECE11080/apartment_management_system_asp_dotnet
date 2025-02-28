@@ -1,0 +1,78 @@
+﻿@{
+    ViewBag.Title = "Maintenance Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid bg-light min-vh-100 px-5 py-5">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="fw-bold text-dark mb-1">Maintenance Dashboard</h1>
+            <p class="text-muted mb-0">Keep track of your pending and paid maintenance payments easily.</p>
+        </div>
+        <div class="input-group w-25 shadow-sm">
+            <input type="text" class="form-control rounded-start" placeholder="Search by Flat, Amount, or Status" aria-label="Search">
+        </div>
+    </div>
+
+    <!-- Pending Maintenance Section -->
+    <div class="mb-5">
+        <h2 class="fw-bold text-primary mb-3">Pending Maintenance</h2>
+        <div class="table-responsive shadow-sm rounded bg-white p-3" style="border: 1px solid #ddd;">
+            <table class="table table-bordered table-striped table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>SR NO</th>
+                        <th>Amount Due</th>
+                        <th>Payment Status</th>
+                        <th>Due Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="checkbox" class="form-check-input" /></td>
+                        <td class="text-danger fw-bold">&#8377;300</td>
+                        <td><span class="badge bg-warning text-dark">Pending</span></td>
+                        <td class="text-muted">30-12-2024</td>
+                        <td>
+                            <button class="btn btn-primary btn-sm text-white" style="background-image: linear-gradient(to right, #052C65, #0056b3); border-radius: 8px;">Pay Now</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Paid Maintenance Section -->
+    <div>
+        <h2 class="fw-bold text-success mb-3">Paid Maintenance</h2>
+        <div class="table-responsive shadow-sm rounded bg-white p-3" style="border: 1px solid #ddd;">
+            <table class="table table-bordered table-striped table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>SR NO</th>
+                        <th>Amount Paid</th>
+                        <th>Payment Status</th>
+                        <th>Payment Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        <tr>
+                            <td><input type="checkbox" class="form-check-input" /></td>
+                            <td class="text-success fw-bold">&#8377;300</td>
+                            <td><span class="badge bg-success">Paid</span></td>
+                            <td class="text-muted">30-12-2024</td>
+                            <td>
+                                <button class="btn btn-outline-primary btn-sm" style="border-radius: 8px;">View</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

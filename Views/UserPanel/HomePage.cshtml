@@ -1,0 +1,124 @@
+﻿@{
+    ViewBag.Title = "Apartment Residents";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid px-5 py-5 mt-5 bg-light">
+    <!-- Header Section -->
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <!-- Title and Subtitle -->
+        <div>
+            <h1 class="fw-bold text-dark mb-1">Apartment Residents</h1>
+            <p class="text-muted mb-0">Manage and explore resident details easily.</p>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="input-group" style="width: 30%;">
+            <input type="text" id="searchInput" class="form-control rounded" placeholder="Search by Name, Flat, or Wing" aria-label="Search">
+        </div>
+    </div>
+
+    <!-- User Cards -->
+    <div class="container">
+        <div class="row g-4" id="userCards">
+            @{
+                var users = new[]
+                {
+            new { Id = 1, Name = "Nishant", Flat = "X01", Wing = "A", Mobile = "200000001" },
+            new { Id = 2, Name = "Jenil", Flat = "X02", Wing = "A", Mobile = "200000002" },
+            new { Id = 3, Name = "Vaibhav", Flat = "X03", Wing = "B", Mobile = "200000003" },
+            new { Id = 4, Name = "Nenis", Flat = "X04", Wing = "B", Mobile = "200000004" },
+            new { Id = 5, Name = "Krupansu", Flat = "X05", Wing = "C", Mobile = "200000005" },
+            new { Id = 6, Name = "Jay", Flat = "X06", Wing = "C", Mobile = "200000006" },
+            new { Id = 7, Name = "Rupala", Flat = "X07", Wing = "D", Mobile = "200000007" },
+            new { Id = 8, Name = "New Rupala", Flat = "X08", Wing = "D", Mobile = "200000008" }
+            };
+
+                foreach (var user in users)
+                {
+                    <div class="col-md-3 user-card" data-name="@user.Name" data-flat="@user.Flat" data-wing="@user.Wing">
+                        <div class="card border-0 shadow h-100" style="border-radius: 12px; transition: transform 0.3s;">
+                            <div class="card-body text-center">
+                                <h5 class="card-title fw-bold text-primary">@user.Name</h5>
+                                <p class="card-text text-muted mb-2"><strong>Flat:</strong> @user.Flat</p>
+                                <p class="card-text text-muted mb-3"><strong>Wing:</strong> @user.Wing</p>
+                                <p class="card-text text-muted mb-4"><strong>Mobile:</strong> @user.Mobile</p>
+                                <button class="btn btn-primary btn-sm w-75 text-white knowMoreBtn"
+                                        data-name="@user.Name"
+                                        data-flat="@user.Flat"
+                                        data-wing="@user.Wing"
+                                        data-mobile="@user.Mobile"
+                                        style="background-image: linear-gradient(to right, #052C65, #0056b3);">
+                                    Know More
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+        <div class="text-center text-muted" id="noUsersMessage" style="display: none;">
+            <p>No users found.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="userModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-lg" style="border-radius: 15px;">
+            <div class="modal-header text-white" style="background-color:#052C65;">
+                <h5 class="modal-title" id="modalUserName"></h5>
+                <button type="button" class="btn-close bg-light" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-2"><strong>Flat No:</strong> <span id="modalFlat"></span></p>
+                <p class="mb-2"><strong>Wing:</strong> <span id="modalWing"></span></p>
+                <p class="mb-2"><strong>Mobile No:</strong> <span id="modalMobile"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 10px;">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const searchInput = document.getElementById("searchInput");
+        const userCards = document.querySelectorAll(".user-card");
+        const noUsersMessage = document.getElementById("noUsersMessage");
+
+        searchInput.addEventListener("input", function () {
+            const searchTerm = this.value.toLowerCase();
+            let visible = false;
+
+            userCards.forEach(card => {
+                const name = card.dataset.name.toLowerCase();
+                const flat = card.dataset.flat.toLowerCase();
+                const wing = card.dataset.wing.toLowerCase();
+
+                if (name.includes(searchTerm) || flat.includes(searchTerm) || wing.includes(searchTerm)) {
+                    card.style.display = "block";
+                    visible = true;
+                } else {
+                    card.style.display = "none";
+                }
+            });
+
+            noUsersMessage.style.display = visible ? "none" : "block";
+        });
+
+        // Modal logic
+        document.querySelectorAll(".knowMoreBtn").forEach(button => {
+            button.addEventListener("click", function () {
+                document.getElementById("modalUserName").textContent = this.dataset.name;
+                document.getElementById("modalFlat").textContent = this.dataset.flat;
+                document.getElementById("modalWing").textContent = this.dataset.wing;
+                document.getElementById("modalMobile").textContent = this.dataset.mobile;
+                new bootstrap.Modal(document.getElementById("userModal")).show();
+            });
+        });
+    });
+</script>

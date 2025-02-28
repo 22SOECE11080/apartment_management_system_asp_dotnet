@@ -1,0 +1,35 @@
+﻿@* @{ *@
+@*     Layout = "~/Views/Shared/_Layout.cshtml"; *@
+@* } *@
+
+
+@* <!-- Navbar --> *@
+@* @await Html.PartialAsync("UserNavbar") *@
+
+<!-- Navbar -->
+@await Html.PartialAsync("UserNavbar")
+
+<!-- Main Content (Dynamic) -->
+<div id="contentContainer">
+    @await Html.PartialAsync("HomePage") <!-- Default Content -->
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".nav-link").on("click", function (e) {
+                e.preventDefault(); // Prevent full-page reload
+
+                var url = $(this).attr("href");
+
+                $.get(url, function (data) {
+                    $("#contentContainer").html(data);
+                }).fail(function () {
+                    alert("Error loading content.");
+                });
+            });
+        });
+    </script>
+}
+

@@ -39,27 +39,27 @@ body {
     position: relative;
 }
 
-    /* Hover & Active Effect */
-    .navbar-nav .nav-link:hover,
-    .navbar-nav .nav-link.active {
-        background: rgba(255, 193, 7, 0.3);
-        border-radius: 8px;
-        color: #ffc107 !important;
-        transition: all 0.3s ease-in-out;
-    }
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+    background: rgba(255, 193, 7, 0.3);
+    border-radius: 8px;
+    color: #ffc107 !important;
+    transition: all 0.3s ease-in-out;
+}
 
-        /* Underline for Active & Hover */
-        .navbar-nav .nav-link:hover::after,
-        .navbar-nav .nav-link.active::after {
-            content: "";
-            position: absolute;
-            left: 10%;
-            bottom: -3px;
-            width: 80%;
-            height: 3px;
-            background: #ffc107;
-            border-radius: 2px;
-        }
+/* Underline effect */
+.navbar-nav .nav-link:hover::after,
+.navbar-nav .nav-link.active::after {
+    content: "";
+    position: absolute;
+    left: 10%;
+    bottom: -3px;
+    width: 80%;
+    height: 3px;
+    background: #ffc107;
+    border-radius: 2px;
+}
+
 
 /* Sign In Button */
 .btn-warning {

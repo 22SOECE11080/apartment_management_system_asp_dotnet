@@ -17,10 +17,24 @@ public class HomeController : Controller
     {
         return View();
     }
-    public IActionResult HeroSection()
+    public IActionResult SignIn()
     {
         return View();
     }
+    public IActionResult Forget()
+    {
+        return View();
+    }
+    public IActionResult Reset()
+    {
+        return View();
+    }
+
+    public IActionResult Confirm()
+    {
+        return View();
+    }
+
     public IActionResult Privacy()
     {
         return View();
