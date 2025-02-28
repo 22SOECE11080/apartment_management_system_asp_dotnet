@@ -17,7 +17,7 @@ public class HomeController : Controller
     {
         return View();
     }
-    public IActionResult _HeroSection()
+    public IActionResult HeroSection()
     {
         return View();
     }
