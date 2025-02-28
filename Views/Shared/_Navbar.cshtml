@@ -1,0 +1,41 @@
+﻿<nav class="navbar navbar-expand-lg sticky-top w-100" style="background-color: #052C65;">
+    <div class="container">
+        <!-- Brand Logo -->
+        <a href="#hero" class="navbar-brand fw-bold text-white fs-2">RNV</a>
+
+        <!-- Mobile Toggle Button -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar Items -->
+        <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+            <ul class="navbar-nav mx-auto text-center">
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "Home")" class="nav-link text-white">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#aboutUs" class="nav-link text-white">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#whyChooseUs" class="nav-link text-white">Why Choose Us</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#services" class="nav-link text-white">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#apartments" class="nav-link text-white">Apartments</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#contactUs" class="nav-link text-white">Contact Us</a>
+                </li>
+            </ul>
+
+            <!-- Sign In Button -->
+            <div class="d-flex">
+                <a href="@Url.Action("SignIn", "Account")" class="btn btn-warning">Sign In</a>
+            </div>
+        </div>
+    </div>
+</nav>
