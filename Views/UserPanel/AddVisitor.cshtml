@@ -1,5 +1,110 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model List<VisitorRequest>
+
 @{
+    ViewBag.Title = "Visitor Management";
 }
+
+<div class="container-fluid bg-light min-vh-100 px-5 py-5">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="fw-bold text-dark mb-1">Visitor Management</h1>
+            <p class="text-muted mb-0">Submit and manage your visitor requests.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Sidebar Navigation -->
+        <div class="col-md-3">
+            <div class="p-4 rounded-4 shadow" style="background-color: #F5F5F5; border: 1px solid #E0E0E0;">
+                <div class="d-grid gap-3">
+                    <a href="@Url.Action("AddVisitor", "Visitor")" class="btn btn-primary rounded-3 py-2" style="background-color: #052C65; color: white; font-weight: bold;">
+                        Add Visitor Request
+                    </a>
+                    <a href="@Url.Action("AddVisitor", "Visitor")" class="btn btn-light border rounded-3 py-2" style="font-weight: bold;">
+                        Visitor Requests List
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-9">
+            <!-- Visitor Request Form -->
+            <div class="shadow-sm rounded bg-white p-4" style="border: 1px solid #ddd;">
+                <h2 class="fw-bold mb-4" style="color: #00003E;">Add Visitor Request</h2>
+
+                @using (Html.BeginForm("AddVisitor", "Visitor", FormMethod.Post))
+                {
+                        <div class="mb-3">
+                            <label>Visitor Name</label>
+                            <input type="text" class="form-control" name="Visitor" placeholder="Enter visitor's name" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Purpose</label>
+                            <input type="text" class="form-control" name="Purpose" placeholder="Enter purpose of visit" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Visit Date</label>
+                            <input type="date" class="form-control" name="VisitDate" required />
+                        </div>
+
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-dark w-40" style="background-image: linear-gradient(to right, #052C65, #0056b3);">
+                                Submit Request
+                            </button>
+                        </div>
+                }
+
+                @if (ViewBag.Message != null)
+                {
+                        <p class="text-success mt-3">@ViewBag.Message</p>
+                }
+            </div>
+
+            <!-- Visitor Requests List -->
+            <div class="shadow-sm rounded bg-white p-4 mt-5" style="border: 1px solid #ddd;">
+                <h2 class="fw-bold mb-4" style="color: #00003E;">Visitor Requests List</h2>
+
+                @if (Model.Count == 0)
+                {
+                        <p class="text-muted">No visitor requests submitted yet.</p>
+                }
+                else
+                {
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Visitor</th>
+                                        <th>Purpose</th>
+                                        <th>Visit Date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                @foreach (var req in Model)
+                                {
+                                            <tr>
+                                                <td>@req.Id</td>
+                                                <td>@req.Visitor</td>
+                                                <td>@req.Purpose</td>
+                                                <td>@req.VisitDate.ToString("yyyy-MM-dd")</td>
+                                                <td>
+                                                    <span class="badge @(req.Status == "Approved" ? "bg-success" : req.Status == "Rejected" ? "bg-danger" : "bg-warning")">
+                                                @req.Status
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
