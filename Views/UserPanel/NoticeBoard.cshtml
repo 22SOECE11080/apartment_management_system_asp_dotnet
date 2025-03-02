@@ -1,5 +1,92 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewBag.Title = "Notice Board";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<div class="container-fluid bg-light min-vh-100 px-5 py-5">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="fw-bold text-dark mb-1" style="color: #00003E;">
+                Notice Board
+            </h1>
+            <p class="text-muted mb-0">Stay updated with the latest notices.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Notices Section -->
+            <div class="shadow-sm rounded bg-white p-4" style="border: 1px solid #ddd;">
+                <h2 class="fw-bold mb-4" style="color: #00003E;">Latest Notices</h2>
+                
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Date</th>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>View More</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Nov 8th, 2023</td>
+                                <td>Meeting</td>
+                                <td>Navratri celebration will be held in the community hall...</td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm rounded-3" onclick="showNotice('Meeting', 'Nov 8th, 2023', 'Navratri celebration will be held in the community hall. All residents are invited to join the event.')"
+                                        style="background-image: linear-gradient(to right, #052C65, #0056b3);">
+                                        Know More
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Dec 1st, 2023</td>
+                                <td>Maintenance Notice</td>
+                                <td>Scheduled power maintenance on Dec 5th, 2023...</td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm rounded-3" onclick="showNotice('Maintenance Notice', 'Dec 1st, 2023', 'Scheduled power maintenance on Dec 5th, 2023, from 10 AM to 2 PM.')"
+                                        style="background-image: linear-gradient(to right, #052C65, #0056b3);">
+                                        Know More
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Viewing Notice Details -->
+    <div id="noticeModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content rounded-4 shadow-lg">
+                <div class="modal-header">
+                    <h5 id="noticeTitle" class="modal-title" style="color: #00003E;"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Date:</strong> <span id="noticeDate"></span></p>
+                    <p><strong>Description:</strong> <span id="noticeDescription"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary rounded-3" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showNotice(title, date, description) {
+        document.getElementById("noticeTitle").innerText = title;
+        document.getElementById("noticeDate").innerText = date;
+        document.getElementById("noticeDescription").innerText = description;
+        
+        var modal = new bootstrap.Modal(document.getElementById("noticeModal"));
+        modal.show();
+    }
+</script>
