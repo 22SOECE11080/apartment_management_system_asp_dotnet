@@ -1,5 +1,134 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewBag.Title = "Visitor Management";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<div class="container-fluid bg-light min-vh-100 px-5 py-5">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="fw-bold text-dark mb-1">Visitor Management</h1>
+            <p class="text-muted mb-0">Submit and manage your visitor requests.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Sidebar Navigation -->
+        <div class="col-md-3">
+            <div class="p-4 rounded-4 shadow" style="background-color: #F5F5F5; border: 1px solid #E0E0E0;">
+                <div class="d-grid gap-3">
+                    <button id="showForm" class="btn btn-primary rounded-3 py-2" style="background-color: #052C65; color: white; font-weight: bold;">
+                        Add Visitor Request
+                    </button>
+                    <button id="showList" class="btn btn-light border rounded-3 py-2" style="font-weight: bold;">
+                        Visitor Requests List
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-9">
+            <!-- Visitor Request Form -->
+            <div id="visitorForm" class="shadow-sm rounded bg-white p-4" style="border: 1px solid #ddd;">
+                <h2 class="fw-bold mb-4" style="color: #00003E;">Add Visitor Request</h2>
+
+                <form id="visitorFormElement">
+                    <div class="mb-3">
+                        <label>Visitor Name</label>
+                        <input type="text" class="form-control" id="visitorName" placeholder="Enter visitor's name" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Purpose</label>
+                        <input type="text" class="form-control" id="purpose" placeholder="Enter purpose of visit" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Visit Date</label>
+                        <input type="date" class="form-control" id="visitDate" required />
+                    </div>
+
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-dark w-40" style="background-image: linear-gradient(to right, #052C65, #0056b3);">
+                            Submit Request
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Visitor Requests List -->
+            <div id="visitorList" class="shadow-sm rounded bg-white p-4 mt-5" style="border: 1px solid #ddd; display: none;">
+                <h2 class="fw-bold mb-4" style="color: #00003E;">Visitor Requests List</h2>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Visitor</th>
+                                <th>Purpose</th>
+                                <th>Visit Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="visitorTable">
+                            <tr>
+                                <td>1</td>
+                                <td>John Doe</td>
+                                <td>Business Meeting</td>
+                                <td>2024-12-10</td>
+                                <td><span class="badge bg-warning">Pending</span></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Jane Smith</td>
+                                <td>Personal Visit</td>
+                                <td>2024-12-11</td>
+                                <td><span class="badge bg-success">Approved</span></td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Michael Brown</td>
+                                <td>Delivery</td>
+                                <td>2024-12-12</td>
+                                <td><span class="badge bg-danger">Rejected</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById("showForm").addEventListener("click", function () {
+        document.getElementById("visitorForm").style.display = "block";
+        document.getElementById("visitorList").style.display = "none";
+    });
+
+    document.getElementById("showList").addEventListener("click", function () {
+        document.getElementById("visitorForm").style.display = "none";
+        document.getElementById("visitorList").style.display = "block";
+    });
+
+    document.getElementById("visitorFormElement").addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        let table = document.getElementById("visitorTable");
+        let newRow = table.insertRow();
+
+        let id = table.rows.length;
+        let visitorName = document.getElementById("visitorName").value;
+        let purpose = document.getElementById("purpose").value;
+        let visitDate = document.getElementById("visitDate").value;
+
+        newRow.innerHTML = `<td>${id}</td><td>${visitorName}</td><td>${purpose}</td><td>${visitDate}</td>
+            <td><span class="badge bg-warning">Pending</span></td>`;
+
+        document.getElementById("visitorFormElement").reset();
+        alert("Visitor request added successfully!");
+    });
+</script>

@@ -1,5 +1,142 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewBag.Title = "Hall Booking";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<div class="container-fluid bg-light min-vh-100">
+    <div class="container py-5">
+        <!-- Title and Subtitle -->
+        <div>
+            <h1 class="fw-bold text-dark mb-1" style="color: #00003E;">
+                Hall Booking
+            </h1>
+            <p class="text-muted mb-0">Easily manage and book halls for your events</p>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Navigation -->
+            <div class="col-md-3 mb-4">
+                <div class="card shadow rounded-4 p-3">
+                    <div class="d-grid gap-2 navigation-buttons">
+                        <button id="showForm" class="btn btn-primary rounded-3 py-2">Booking Form</button>
+                        <button id="showList" class="btn btn-light border rounded-3 py-2">Booking List</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9">
+                <!-- Booking Form View -->
+                <div id="bookingForm" class="card shadow rounded-4 p-4">
+                    <h2 class="fw-bold mb-4" style="color: #00003E;">Hall Booking Form</h2>
+                    <form id="bookingFormElement">
+                        <div class="mb-3">
+                            <label for="hallType" class="form-label">Hall Type</label>
+                            <select id="hallType" name="hallType" class="form-control" required>
+                                <option value="Hall A">Hall A (Capacity: 50)</option>
+                                <option value="Hall B">Hall B (Capacity: 100)</option>
+                                <option value="Hall C">Hall C (Capacity: 150)</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="date" class="form-label">Date</label>
+                            <input type="date" id="date" name="date" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="startTime" class="form-label">Start Time</label>
+                            <input type="time" id="startTime" name="startTime" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="endTime" class="form-label">End Time</label>
+                            <input type="time" id="endTime" name="endTime" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="purpose" class="form-label">Purpose</label>
+                            <textarea id="purpose" name="purpose" class="form-control" placeholder="Enter purpose here" rows="4" required></textarea>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-dark w-40" style="background-image: linear-gradient(to right, #052C65, #0056b3);">Submit Request</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Booking List View -->
+                <div id="bookingList" class="card shadow rounded-4 p-4" style="display: none;">
+                    <h2 class="fw-bold mb-4" style="color: #00003E;">Past Bookings</h2>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Date</th>
+                                    <th>Hall Type</th>
+                                    <th>Starting Time</th>
+                                    <th>Ending Time</th>
+                                    <th>Purpose</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bookingTable">
+                                <tr>
+                                    <td>1</td>
+                                    <td>2024-12-10</td>
+                                    <td>Hall A</td>
+                                    <td>10:00</td>
+                                    <td>12:00</td>
+                                    <td>Birthday Party</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>2024-12-11</td>
+                                    <td>Hall B</td>
+                                    <td>14:00</td>
+                                    <td>16:00</td>
+                                    <td>Meeting</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>2024-12-12</td>
+                                    <td>Hall C</td>
+                                    <td>18:00</td>
+                                    <td>20:00</td>
+                                    <td>Event</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById("showForm").addEventListener("click", function () {
+        document.getElementById("bookingForm").style.display = "block";
+        document.getElementById("bookingList").style.display = "none";
+    });
+
+    document.getElementById("showList").addEventListener("click", function () {
+        document.getElementById("bookingForm").style.display = "none";
+        document.getElementById("bookingList").style.display = "block";
+    });
+
+    document.getElementById("bookingFormElement").addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        let table = document.getElementById("bookingTable");
+        let newRow = table.insertRow();
+        
+        let id = table.rows.length; 
+        let date = document.getElementById("date").value;
+        let hallType = document.getElementById("hallType").value;
+        let startTime = document.getElementById("startTime").value;
+        let endTime = document.getElementById("endTime").value;
+        let purpose = document.getElementById("purpose").value;
+
+        newRow.innerHTML = `<td>${id}</td><td>${date}</td><td>${hallType}</td><td>${startTime}</td><td>${endTime}</td><td>${purpose}</td>`;
+
+        document.getElementById("bookingFormElement").reset();
+        alert("Booking added successfully!");
+    });
+</script>
