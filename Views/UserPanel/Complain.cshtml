@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "Complaint Management";
-    Layout = "~/Views/Shared/_Layout.cshtml"; 
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="container-fluid bg-light min-vh-100 px-5 py-5">
@@ -51,8 +51,8 @@
             <!-- Complaint List -->
             <div id="complaintList" class="shadow-sm rounded bg-white p-4" style="border: 1px solid #ddd; display: none;">
                 <h2 class="fw-bold mb-4" style="color: #00003E;">Complaint List</h2>
-                <p id="noComplaints" class="text-muted">No complaints submitted yet.</p>
-                <div id="complaintTableContainer" class="table-responsive" style="display: none;">
+                <p id="noComplaints" class="text-muted" style="display: none;">No complaints submitted yet.</p>
+                <div id="complaintTableContainer" class="table-responsive">
                     <table class="table table-bordered table-striped table-hover">
                         <thead class="table-dark">
                             <tr>
@@ -62,7 +62,26 @@
                                 <th>Description</th>
                             </tr>
                         </thead>
-                        <tbody id="complaintTableBody"></tbody>
+                        <tbody id="complaintTableBody">
+                            <tr>
+                                <td>1</td>
+                                <td>2024-03-01</td>
+                                <td>Water Leakage</td>
+                                <td>Water is leaking from the ceiling in the kitchen.</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>2024-03-02</td>
+                                <td>Power Outage</td>
+                                <td>Frequent power cuts in the building at night.</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>2024-03-03</td>
+                                <td>Elevator Issue</td>
+                                <td>Elevator stops working frequently.</td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -104,7 +123,7 @@
             }
 
             let newComplaint = {
-                id: complaints.length + 1,
+                id: document.getElementById("complaintTableBody").rows.length + 1, // Count rows including static data
                 date: date,
                 title: title,
                 description: description
@@ -114,6 +133,9 @@
             alert("Complaint submitted successfully!");
 
             document.getElementById("formComplaint").reset();
+
+            // Update list immediately
+            updateComplaintList();
         });
 
         function updateComplaintList() {
@@ -121,22 +143,28 @@
             let tableContainer = document.getElementById("complaintTableContainer");
             let noComplaintsMsg = document.getElementById("noComplaints");
 
-            tableBody.innerHTML = "";
             if (complaints.length === 0) {
-                tableContainer.style.display = "none";
                 noComplaintsMsg.style.display = "block";
             } else {
-                complaints.forEach((complaint) => {
-                    let row = `<tr>
-                        <td>${complaint.id}</td>
-                        <td>${complaint.date}</td>
-                        <td>${complaint.title}</td>
-                        <td>${complaint.description}</td>
-                    </tr>`;
-                    tableBody.innerHTML += row;
-                });
-                tableContainer.style.display = "block";
                 noComplaintsMsg.style.display = "none";
+                tableContainer.style.display = "block";
+
+                // Append only new complaints
+                complaints.forEach((complaint) => {
+                    let existingRows = Array.from(tableBody.getElementsByTagName("tr"));
+                    let exists = existingRows.some(row => row.cells[0].innerText == complaint.id);
+
+                    if (!exists) {
+                        let row = document.createElement("tr");
+                        row.innerHTML = `
+                            <td>${complaint.id}</td>
+                            <td>${complaint.date}</td>
+                            <td>${complaint.title}</td>
+                            <td>${complaint.description}</td>
+                        `;
+                        tableBody.appendChild(row);
+                    }
+                });
             }
         }
     </script>

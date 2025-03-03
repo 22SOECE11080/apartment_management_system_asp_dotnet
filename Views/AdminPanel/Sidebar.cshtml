@@ -1,0 +1,78 @@
+﻿@{
+    Layout = null; // Since this is a partial view, we don't need a layout here
+}
+
+<aside id="sidebar" class="">
+    <div class="d-flex">
+        <button class="toggle-btn" type="button" onclick="toggleSidebar()">
+            <i class="bi bi-grid"></i> <!-- Sidebar toggle icon -->
+        </button>
+        <div class="sidebar-logo">
+            <a href="@Url.Action("Index", "AdminPanel")" class="navbar-brand fs-2">
+                RNV
+            </a>
+        </div>
+    </div>
+    <ul class="sidebar-nav">
+        <li class="sidebar-item">
+            <a href="@Url.Action("Index", "AdminPanel")" class="sidebar-link">
+                <i class="bi bi-house-door me-2"></i> <!-- Home icon -->
+                <span>Dashboard</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="@Url.Action("AdminAddMembers", "AdminPanel")" class="sidebar-link">
+                <i class="bi bi-person-plus me-2"></i> <!-- User Plus icon -->
+                <span>Admin Add Members</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="@Url.Action("Maintenance", "AdminPanel")" class="sidebar-link">
+                <i class="bi bi-gear-fill"></i> <!-- Maintenance icon -->
+                <span>Maintenance</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="@Url.Action("Complaints", "AdminPanel")" class="sidebar-link">
+                <i class="bi bi-exclamation-circle-fill"></i> <!-- Complaints icon -->
+                <span>Complaints</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="@Url.Action("HallBooking", "AdminPanel")" class="sidebar-link">
+                <i class="bi bi-calendar-check-fill"></i> <!-- Hall Booking icon -->
+                <span>Hall Booking</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="@Url.Action("NoticeBoard", "AdminPanel")" class="sidebar-link">
+                <i class="bi bi-postcard"></i> <!-- Notice Board icon -->
+                <span>Notice Board</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="@Url.Action("VisitorManagement", "AdminPanel")" class="sidebar-link">
+                <i class="bi bi-person"></i> <!-- Visitor Management icon -->
+                <span>Visitor Management</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="@Url.Action("VehicleInfo", "AdminPanel")" class="sidebar-link">
+                <i class="bi bi-car-front"></i> <!-- Vehicle Info icon -->
+                <span>Vehicle Info</span>
+            </a>
+        </li>
+    </ul>
+    <div class="sidebar-footer">
+        <a href="@Url.Action("Logout", "Account")" class="sidebar-link">
+            <i class="bi bi-box-arrow-left"></i> <!-- Logout icon -->
+            <span>Logout</span>
+        </a>
+    </div>
+</aside>
+
+<script>
+    function toggleSidebar() {
+        document.getElementById("sidebar").classList.toggle("expand");
+    }
+</script>

@@ -17,7 +17,7 @@
         <div class="col-md-3">
             <div class="p-4 rounded-4 shadow" style="background-color: #F5F5F5; border: 1px solid #E0E0E0;">
                 <div class="d-grid gap-3">
-                    <button id="showForm" class="btn btn-primary rounded-3 py-2" style="background-color: #052C65; color: white; font-weight: bold;">
+                    <button id="showForm" class="btn btn-primary rounded-3 py-2">
                         Add Visitor Request
                     </button>
                     <button id="showList" class="btn btn-light border rounded-3 py-2" style="font-weight: bold;">
@@ -104,31 +104,26 @@
 </div>
 
 <script>
+    function setActiveTab(activeId, inactiveId) {
+        document.getElementById(activeId).classList.add("btn-primary");
+        document.getElementById(activeId).classList.remove("btn-light", "border");
+
+        document.getElementById(inactiveId).classList.add("btn-light", "border");
+        document.getElementById(inactiveId).classList.remove("btn-primary");
+    }
+
     document.getElementById("showForm").addEventListener("click", function () {
         document.getElementById("visitorForm").style.display = "block";
         document.getElementById("visitorList").style.display = "none";
+        setActiveTab("showForm", "showList");
     });
 
     document.getElementById("showList").addEventListener("click", function () {
         document.getElementById("visitorForm").style.display = "none";
         document.getElementById("visitorList").style.display = "block";
+        setActiveTab("showList", "showForm");
     });
 
-    document.getElementById("visitorFormElement").addEventListener("submit", function (event) {
-        event.preventDefault();
-
-        let table = document.getElementById("visitorTable");
-        let newRow = table.insertRow();
-
-        let id = table.rows.length;
-        let visitorName = document.getElementById("visitorName").value;
-        let purpose = document.getElementById("purpose").value;
-        let visitDate = document.getElementById("visitDate").value;
-
-        newRow.innerHTML = `<td>${id}</td><td>${visitorName}</td><td>${purpose}</td><td>${visitDate}</td>
-            <td><span class="badge bg-warning">Pending</span></td>`;
-
-        document.getElementById("visitorFormElement").reset();
-        alert("Visitor request added successfully!");
-    });
+    // Set initial active state
+    setActiveTab("showForm", "showList");
 </script>

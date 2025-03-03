@@ -25,24 +25,24 @@ namespace apartment_management_system_asp_dotnet.Controllers
             return PartialView("Complain");
         }
 
-        //public IActionResult Booking()
-        //{
-        //    return PartialView("_Booking");
-        //}
+        public IActionResult Booking()
+        {
+            return PartialView("Booking");
+        }
 
-        //public IActionResult NoticeBoard()
-        //{
-        //    return PartialView("_NoticeBoard");
-        //}
+        public IActionResult NoticeBoard()
+        {
+            return PartialView("NoticeBoard");
+        }
 
-        //public IActionResult AddVisitor()
-        //{
-        //    return PartialView("_AddVisitor");
-        //}
+        public IActionResult AddVisitor()
+        {
+            return PartialView("AddVisitor");
+        }
 
-        //public IActionResult VehicleInfo()
-        //{
-        //    return PartialView("_VehicleInfo");
-        //}
+        public IActionResult VehicleInfo()
+        {
+            return PartialView("VehicleInfo");
+        }
     }
 }

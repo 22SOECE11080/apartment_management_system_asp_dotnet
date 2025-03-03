@@ -2,31 +2,37 @@
     ViewBag.Title = "Hall Booking";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    .active-btn {
+        background-color: #0056b3 !important;
+        color: white !important;
+        border: 1px solid #0056b3 !important;
+    }
+
+    .inactive-btn {
+        background-color: white !important;
+        color: black !important;
+    }
+</style>
 
 <div class="container-fluid bg-light min-vh-100">
     <div class="container py-5">
-        <!-- Title and Subtitle -->
         <div>
-            <h1 class="fw-bold text-dark mb-1" style="color: #00003E;">
-                Hall Booking
-            </h1>
+            <h1 class="fw-bold text-dark mb-1" style="color: #00003E;">Hall Booking</h1>
             <p class="text-muted mb-0">Easily manage and book halls for your events</p>
         </div>
 
         <div class="row">
-            <!-- Sidebar Navigation -->
             <div class="col-md-3 mb-4">
                 <div class="card shadow rounded-4 p-3">
                     <div class="d-grid gap-2 navigation-buttons">
-                        <button id="showForm" class="btn btn-primary rounded-3 py-2">Booking Form</button>
-                        <button id="showList" class="btn btn-light border rounded-3 py-2">Booking List</button>
+                        <button id="showForm" class="btn active-btn rounded-3 py-2">Booking Form</button>
+                        <button id="showList" class="btn inactive-btn rounded-3 py-2">Past Bookings</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Main Content -->
             <div class="col-md-9">
-                <!-- Booking Form View -->
                 <div id="bookingForm" class="card shadow rounded-4 p-4">
                     <h2 class="fw-bold mb-4" style="color: #00003E;">Hall Booking Form</h2>
                     <form id="bookingFormElement">
@@ -60,7 +66,6 @@
                     </form>
                 </div>
 
-                <!-- Booking List View -->
                 <div id="bookingList" class="card shadow rounded-4 p-4" style="display: none;">
                     <h2 class="fw-bold mb-4" style="color: #00003E;">Past Bookings</h2>
                     <div class="table-responsive">
@@ -78,33 +83,49 @@
                             <tbody id="bookingTable">
                                 <tr>
                                     <td>1</td>
-                                    <td>2024-12-10</td>
+                                    <td>2025-03-05</td>
                                     <td>Hall A</td>
-                                    <td>10:00</td>
-                                    <td>12:00</td>
-                                    <td>Birthday Party</td>
+                                    <td>10:00 AM</td>
+                                    <td>12:00 PM</td>
+                                    <td>Birthday Party - Rajesh Kumar</td>
                                 </tr>
                                 <tr>
                                     <td>2</td>
-                                    <td>2024-12-11</td>
+                                    <td>2025-03-08</td>
                                     <td>Hall B</td>
-                                    <td>14:00</td>
-                                    <td>16:00</td>
-                                    <td>Meeting</td>
+                                    <td>02:00 PM</td>
+                                    <td>05:00 PM</td>
+                                    <td>Wedding Reception - Priya Sharma</td>
                                 </tr>
                                 <tr>
                                     <td>3</td>
-                                    <td>2024-12-12</td>
+                                    <td>2025-03-10</td>
                                     <td>Hall C</td>
-                                    <td>18:00</td>
-                                    <td>20:00</td>
-                                    <td>Event</td>
+                                    <td>06:00 PM</td>
+                                    <td>09:00 PM</td>
+                                    <td>Corporate Meeting - Anil Mehta</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>2025-03-12</td>
+                                    <td>Hall A</td>
+                                    <td>11:00 AM</td>
+                                    <td>02:00 PM</td>
+                                    <td>Baby Shower - Sneha Patel</td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>2025-03-15</td>
+                                    <td>Hall B</td>
+                                    <td>03:00 PM</td>
+                                    <td>06:00 PM</td>
+                                    <td>Farewell Party - Vikram Singh</td>
                                 </tr>
                             </tbody>
+
                         </table>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -114,11 +135,21 @@
     document.getElementById("showForm").addEventListener("click", function () {
         document.getElementById("bookingForm").style.display = "block";
         document.getElementById("bookingList").style.display = "none";
+
+        this.classList.add("active-btn");
+        this.classList.remove("inactive-btn");
+        document.getElementById("showList").classList.add("inactive-btn");
+        document.getElementById("showList").classList.remove("active-btn");
     });
 
     document.getElementById("showList").addEventListener("click", function () {
         document.getElementById("bookingForm").style.display = "none";
         document.getElementById("bookingList").style.display = "block";
+
+        this.classList.add("active-btn");
+        this.classList.remove("inactive-btn");
+        document.getElementById("showForm").classList.add("inactive-btn");
+        document.getElementById("showForm").classList.remove("active-btn");
     });
 
     document.getElementById("bookingFormElement").addEventListener("submit", function (event) {
@@ -126,8 +157,8 @@
 
         let table = document.getElementById("bookingTable");
         let newRow = table.insertRow();
-        
-        let id = table.rows.length; 
+
+        let id = table.rows.length + 1;
         let date = document.getElementById("date").value;
         let hallType = document.getElementById("hallType").value;
         let startTime = document.getElementById("startTime").value;
@@ -135,7 +166,6 @@
         let purpose = document.getElementById("purpose").value;
 
         newRow.innerHTML = `<td>${id}</td><td>${date}</td><td>${hallType}</td><td>${startTime}</td><td>${endTime}</td><td>${purpose}</td>`;
-
         document.getElementById("bookingFormElement").reset();
         alert("Booking added successfully!");
     });
