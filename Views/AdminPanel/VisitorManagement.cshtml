@@ -1,5 +1,150 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewBag.Title = "Admin - Visitor Management";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
+
+<div class="container-fluid mt-4 py-5 px-5 bg-light">
+    <h3 class="fw-bold">Admin - Visitor Management</h3>
+    <p class="text-muted">Manage visitor requests, check-ins, and check-outs for residents.</p>
+
+    <!-- Pending Approvals Section -->
+    <div class="mt-4">
+        <h5 class="fw-bold">Pending Approvals</h5>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Visitor</th>
+                        <th>Contact</th>
+                        <th>Resident</th>
+                        <th>Purpose</th>
+                        <th>Visit Date & Time</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (ViewBag.PendingApprovals != null && ViewBag.PendingApprovals.Count > 0)
+                    {
+                        foreach (var req in ViewBag.PendingApprovals)
+                        {
+                            <tr>
+                                <td>@req.Id</td>
+                                <td>@req.Visitor</td>
+                                <td>@req.Contact</td>
+                                <td>@req.Resident</td>
+                                <td>@req.Purpose</td>
+                                <td>@req.VisitDate</td>
+                                <td>
+                                    <form method="post" asp-action="ApproveVisitor" asp-route-id="@req.Id" class="d-inline">
+                                        <button type="submit" class="btn btn-success me-2">Approve</button>
+                                    </form>
+                                    <form method="post" asp-action="RejectVisitor" asp-route-id="@req.Id" class="d-inline">
+                                        <button type="submit" class="btn btn-danger">Reject</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7" class="text-center text-muted">No pending approvals.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Visitor Log Section -->
+    <div class="mt-4">
+        <h5 class="fw-bold">Visitor Log</h5>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Visitor</th>
+                        <th>Contact</th>
+                        <th>Resident</th>
+                        <th>Purpose</th>
+                        <th>Check-In</th>
+                        <th>Check-Out</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (ViewBag.VisitorLog != null && ViewBag.VisitorLog.Count > 0)
+                    {
+                        foreach (var log in ViewBag.VisitorLog)
+                        {
+                            <tr>
+                                <td>@log.Id</td>
+                                <td>@log.Visitor</td>
+                                <td>@log.Contact</td>
+                                <td>@log.Resident</td>
+                                <td>@log.Purpose</td>
+                                <td>@(log.CheckIn ?? "Not Checked-In")</td>
+                                <td>@(log.CheckOut ?? "Not Checked-Out")</td>
+                                <td>
+                                    <span class="badge bg-@(log.Status == "Checked-In" ? "success" : log.Status == "Exited" ? "secondary" : "warning")">
+                                        @log.Status
+                                    </span>
+                                </td>
+                                <td>
+                                    @if (log.Status == "Pending Check-In")
+                                    {
+                                        <form method="post" asp-action="CheckInVisitor" asp-route-id="@log.Id" class="d-inline">
+                                            <button type="submit" class="btn btn-primary">Check-In</button>
+                                        </form>
+                                    }
+                                    @if (log.Status == "Checked-In")
+                                    {
+                                        <form method="post" asp-action="CheckOutVisitor" asp-route-id="@log.Id" class="d-inline">
+                                            <button type="submit" class="btn btn-secondary">Check-Out</button>
+                                        </form>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="9" class="text-center text-muted">No visitor logs available.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Add Visitor Section -->
+    <div class="mt-4">
+        <h5 class="fw-bold">Add Visitor</h5>
+        <form method="post" asp-action="AddVisitor">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <input type="text" name="visitor" class="form-control" placeholder="Visitor Name" required />
+                </div>
+                <div class="col-md-4">
+                    <input type="text" name="contact" class="form-control" placeholder="Contact Number" required />
+                </div>
+                <div class="col-md-4">
+                    <input type="text" name="resident" class="form-control" placeholder="Resident Name" required />
+                </div>
+                <div class="col-md-4">
+                    <input type="text" name="purpose" class="form-control" placeholder="Purpose" required />
+                </div>
+                <div class="col-md-4">
+                    <input type="datetime-local" name="visitDate" class="form-control" required />
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary">Add Visitor</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

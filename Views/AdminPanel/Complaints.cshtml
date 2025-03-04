@@ -1,5 +1,118 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewBag.Title = "Admin Complaints";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
+
+<div class="container-fluid mt-4 py-5 px-5 bg-light">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold">Complaints Management</h2>
+            <p class="text-muted">Manage complaints and track resolution statuses.</p>
+        </div>
+        <div class="col-md-4">
+            <!-- Search Section -->
+            <form method="get" class="input-group">
+                <input type="text" name="searchQuery" class="form-control"
+                       placeholder="Search by Status, Apartment, or Resident Name"
+                       value="@Context.Request.Query["searchQuery"]" />
+            </form>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+            <table class="table table-hover table-bordered mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Complaint ID</th>
+                        <th>Apartment</th>
+                        <th>Resident</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Created Date</th>
+                        <th>Resolved Date</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (ViewBag.Complaints != null && ViewBag.Complaints.Count > 0)
+                    {
+                        foreach (var complaint in ViewBag.Complaints)
+                        {
+                            <tr>
+                                <td>@complaint.ComplaintId</td>
+                                <td>@complaint.ApartmentNumber</td>
+                                <td>@complaint.ResidentName</td>
+                                <td>@complaint.Description</td>
+                                <td>
+                                    <span class="badge @(complaint.Status == "Resolved" ? "bg-success" : "bg-warning")">
+                                        @complaint.Status
+                                    </span>
+                                </td>
+                                <td>@Convert.ToDateTime(complaint.CreatedDate).ToShortDateString()</td>
+                                <td>@(complaint.ResolvedDate != null ? Convert.ToDateTime(complaint.ResolvedDate).ToShortDateString() : "Pending")</td>
+                                <td class="text-center">
+                                    <button class="btn btn-sm btn-primary me-2"
+                                            onclick="showComplaintModal(@Html.Raw(Json.Serialize(complaint)))">
+                                        View
+                                    </button>
+                                    @if (complaint.Status != "Resolved")
+                                    {
+                                        <form method="post" asp-action="Resolve" asp-route-id="@complaint.ComplaintId" class="d-inline">
+                                            <button type="submit" class="btn btn-sm btn-success">Resolve</button>
+                                        </form>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr><td colspan="8" class="text-center text-danger py-3">No complaints found.</td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Complaint Details Modal -->
+<div class="modal fade" id="complaintModal" tabindex="-1" aria-labelledby="complaintModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="complaintModalLabel">Complaint Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Complaint ID:</strong> <span id="modalComplaintId"></span></p>
+                <p><strong>Apartment:</strong> <span id="modalApartmentNumber"></span></p>
+                <p><strong>Resident:</strong> <span id="modalResidentName"></span></p>
+                <p><strong>Description:</strong> <span id="modalDescription"></span></p>
+                <p><strong>Status:</strong> <span id="modalStatus"></span></p>
+                <p><strong>Created Date:</strong> <span id="modalCreatedDate"></span></p>
+                <p><strong>Resolved Date:</strong> <span id="modalResolvedDate"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showComplaintModal(complaint) {
+        document.getElementById("modalComplaintId").innerText = complaint.complaintId;
+        document.getElementById("modalApartmentNumber").innerText = complaint.apartmentNumber;
+        document.getElementById("modalResidentName").innerText = complaint.residentName;
+        document.getElementById("modalDescription").innerText = complaint.description;
+        document.getElementById("modalStatus").innerText = complaint.status;
+        document.getElementById("modalCreatedDate").innerText = new Date(complaint.createdDate).toLocaleDateString();
+        document.getElementById("modalResolvedDate").innerText = complaint.resolvedDate
+            ? new Date(complaint.resolvedDate).toLocaleDateString()
+            : "Pending";
+
+        var modal = new bootstrap.Modal(document.getElementById('complaintModal'));
+        modal.show();
+    }
+</script>

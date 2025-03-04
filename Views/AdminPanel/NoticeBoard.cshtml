@@ -1,5 +1,116 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewBag.Title = "Admin Notice Board";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
+
+<div class="container-fluid mt-4 py-5 px-5 bg-light">
+    <h3 class="fw-bold">Admin - Manage Notices</h3>
+    <p class="text-muted">Manage the notices for your community. Create, edit, and delete notices.</p>
+
+    <!-- Add Notice Button -->
+    <button class="btn btn-primary mb-3" onclick="showNoticeModal()">Add New Notice</button>
+
+    <!-- Notices Table -->
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (ViewBag.Notices != null)
+            {
+                foreach (var notice in ViewBag.Notices)
+                {
+                    <tr>
+                        <td>@notice.Title</td>
+                        <td>@notice.Description</td>
+                        <td>@Convert.ToDateTime(notice.Date).ToShortDateString()</td>
+                        <td>@notice.Status</td>
+                        <td>
+                            <button class="btn btn-warning" onclick="editNotice(@Html.Raw(Json.Serialize(notice)))">Edit</button>
+                            <form method="post" action="@Url.Action("Delete", "Notices")" class="d-inline">
+                                <input type="hidden" name="id" value="@notice.Id" />
+                                <button type="submit" class="btn btn-danger ms-2">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr><td colspan="5" class="text-center text-danger">No notices available.</td></tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Notice Modal -->
+<div class="modal fade" id="noticeModal" tabindex="-1" aria-labelledby="noticeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="noticeModalLabel">Add Notice</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="noticeForm" method="post" action="@Url.Action("AddOrEdit", "Notices")">
+                    <input type="hidden" id="noticeId" name="Id" />
+                    <div class="mb-3">
+                        <label class="form-label">Title</label>
+                        <input type="text" class="form-control" id="noticeTitle" name="Title" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control" id="noticeDescription" name="Description" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Date</label>
+                        <input type="date" class="form-control" id="noticeDate" name="Date" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Status</label>
+                        <select class="form-select" id="noticeStatus" name="Status">
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save Notice</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showNoticeModal() {
+        document.getElementById("noticeId").value = "";
+        document.getElementById("noticeTitle").value = "";
+        document.getElementById("noticeDescription").value = "";
+        document.getElementById("noticeDate").value = "";
+        document.getElementById("noticeStatus").value = "Active";
+        document.getElementById("noticeModalLabel").innerText = "Add Notice";
+
+        var modal = new bootstrap.Modal(document.getElementById('noticeModal'));
+        modal.show();
+    }
+
+    function editNotice(notice) {
+        document.getElementById("noticeId").value = notice.id;
+        document.getElementById("noticeTitle").value = notice.title;
+        document.getElementById("noticeDescription").value = notice.description;
+        document.getElementById("noticeDate").value = new Date(notice.date).toISOString().split('T')[0];
+        document.getElementById("noticeStatus").value = notice.status;
+        document.getElementById("noticeModalLabel").innerText = "Edit Notice";
+
+        var modal = new bootstrap.Modal(document.getElementById('noticeModal'));
+        modal.show();
+    }
+</script>

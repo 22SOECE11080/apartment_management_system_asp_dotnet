@@ -12,5 +12,33 @@ namespace apartment_management_system_asp_dotnet.Controllers
         {
             return View();
         }
+        public IActionResult AdminAddMembers()
+        {
+            return View();
+        }
+        public IActionResult Complaints()
+        {
+            return View();
+        }
+        public IActionResult NoticeBoard()
+        {
+            return View();
+        }
+        public IActionResult HallBooking()
+        {
+            return View();
+        }
+        public IActionResult Maintenance()
+        {
+            return View();
+        }
+        public IActionResult VehicleInfo()
+        {
+            return View();
+        }
+        public IActionResult VisitorManagement()
+        {
+            return View();
+        }
     }
 }
