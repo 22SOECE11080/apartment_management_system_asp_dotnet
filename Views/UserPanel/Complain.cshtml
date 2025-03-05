@@ -1,5 +1,111 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "Complaint Management";
 }
+
+<div class="container-fluid bg-light min-vh-100 px-5 py-5">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="fw-bold text-dark mb-1">Complaint Management</h1>
+            <p class="text-muted mb-0">Submit and view your complaints easily.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Sidebar Navigation -->
+        <div class="col-md-3">
+            <div class="p-4 rounded-4 shadow" style="background-color: #F5F5F5; border: 1px solid #E0E0E0;">
+                <div class="d-grid gap-3">
+                    <button id="btnForm" class="btn btn-primary rounded-3 py-2">Complaint Form</button>
+                    <button id="btnList" class="btn btn-light border rounded-3 py-2">Complaint List</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-9">
+            <div id="complaintForm" class="shadow-sm rounded bg-white p-4" style="border: 1px solid #ddd;">
+                <h2 class="fw-bold mb-4" style="color: #00003E;">Complaint Form</h2>
+                <form id="formComplaint">
+                    <div class="mb-3">
+                        <label for="date" class="form-label">Complaint Date</label>
+                        <input type="date" id="date" name="date" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Complaint Title</label>
+                        <input type="text" id="title" name="title" class="form-control" placeholder="Type Complaint Here" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea id="description" name="description" class="form-control" placeholder="Type Description Here" rows="4" required></textarea>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-dark w-40" style="background-image: linear-gradient(to right, #052C65, #0056b3);">Submit Request</button>
+                    </div>
+                </form>
+            </div>
+
+            <div id="complaintList" class="shadow-sm rounded bg-white p-4 d-none" style="border: 1px solid #ddd;">
+                <h2 class="fw-bold mb-4" style="color: #00003E;">Complaint List</h2>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Date</th>
+                                <th>Title</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody id="complaintTableBody">
+                            <tr>
+                                <td colspan="4" class="text-muted text-center">No complaints submitted yet.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById("btnForm").addEventListener("click", function () {
+        document.getElementById("complaintForm").classList.remove("d-none");
+        document.getElementById("complaintList").classList.add("d-none");
+        this.classList.add("btn-primary");
+        this.classList.remove("btn-light", "border");
+        document.getElementById("btnList").classList.remove("btn-primary");
+        document.getElementById("btnList").classList.add("btn-light", "border");
+    });
+
+    document.getElementById("btnList").addEventListener("click", function () {
+        document.getElementById("complaintList").classList.remove("d-none");
+        document.getElementById("complaintForm").classList.add("d-none");
+        this.classList.add("btn-primary");
+        this.classList.remove("btn-light", "border");
+        document.getElementById("btnForm").classList.remove("btn-primary");
+        document.getElementById("btnForm").classList.add("btn-light", "border");
+    });
+
+    document.getElementById("formComplaint").addEventListener("submit", function (e) {
+        e.preventDefault();
+        const date = document.getElementById("date").value;
+        const title = document.getElementById("title").value;
+        const description = document.getElementById("description").value;
+
+        const tableBody = document.getElementById("complaintTableBody");
+        if (tableBody.querySelector("tr td").textContent === "No complaints submitted yet.") {
+            tableBody.innerHTML = "";
+        }
+
+        const row = tableBody.insertRow();
+        row.insertCell(0).textContent = tableBody.rows.length;
+        row.insertCell(1).textContent = date;
+        row.insertCell(2).textContent = title;
+        row.insertCell(3).textContent = description;
+
+        alert("Complaint submitted successfully!");
+        document.getElementById("formComplaint").reset();
+    });
+</script>
