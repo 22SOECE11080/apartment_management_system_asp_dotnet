@@ -8,7 +8,7 @@
 
         <!-- Left Section -->
         <div class="col-md-6 d-flex flex-column justify-content-center align-items-center bg-light p-5">
-            <img src="~/Assets/image/login.jpg" alt="Efficient Living" class="img-fluid" />
+            <img src="~/images/login.jpg" class="img-fluid mb-2" style="width: 400px;" asp-append-version="true" />
             <h2 class="mt-4 text-center">Efficient Living Starts Here</h2>
             <p class="text-center">
                 Our platform is built to meet the needs of apartment communities
@@ -24,12 +24,12 @@
             </div>
 
             <div class="text-center mb-4">
-                <img src="~/Assets/image/rnvlogo.png" class="img-fluid mb-2" style="width: 250px;" />
+                <img src="~/images/rnvlogo.png" class="img-fluid mb-2" style="width: 250px;" asp-append-version="true" />
                 <h3>Sign In</h3>
                 <p class="text-muted">Sign in with your details to continue</p>
             </div>
 
-            <form class="w-100" style="max-width: 400px;" method="post" action="@Url.Action("Signin", "Account")">
+            <form class="w-100" style="max-width: 400px;" method="post" action="@Url.Action("Index", "UserPanel")">
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
                     <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required />
