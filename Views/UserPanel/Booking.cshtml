@@ -23,12 +23,11 @@
         </div>
 
         <div class="row">
-            <!-- Sidebar Navigation -->
-            <div class="col-md-3">
-                <div class="p-4 rounded-4 shadow" style="background-color: #F5F5F5; border: 1px solid #E0E0E0;">
-                    <div class="d-grid gap-3">
-                        <button id="btnForm" class="btn btn-primary rounded-3 py-2" style="background-color:#052C65">Booking Form</button>
-                        <button id="btnList" class="btn btn-light border rounded-3 py-2">Past Booking</button>
+            <div class="col-md-3 mb-4">
+                <div class="card shadow rounded-4 p-3">
+                    <div class="d-grid gap-2 navigation-buttons">
+                        <button id="showForm" class="btn active-btn rounded-3 py-2">Booking Form</button>
+                        <button id="showList" class="btn inactive-btn rounded-3 py-2">Past Bookings</button>
                     </div>
                 </div>
             </div>
@@ -166,7 +165,7 @@
         let endTime = document.getElementById("endTime").value;
         let purpose = document.getElementById("purpose").value;
 
-        newRow.innerHTML = `<td>${id}</td><td>${date}</td><td>${hallType}</td><td>${startTime}</td><td>${endTime}</td><td>${purpose}</td>`;
+        newRow.innerHTML = <td>${ id } </td><td>${date}</td > <td>${ hallType } </td><td>${startTime}</td > <td>${ endTime } </td><td>${purpose}</td >;
         document.getElementById("bookingFormElement").reset();
         alert("Booking added successfully!");
     });
